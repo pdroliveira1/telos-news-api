@@ -2,6 +2,8 @@ const { Router } = require('express');
 
 const autorController = require('../controllers/autor.controller')
 
+const { verifyAuthenticate } = require("../middlewares/verifyAuthentication")
+
 routes = Router();
 
 routes.get('/autor', autorController.list);

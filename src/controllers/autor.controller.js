@@ -1,9 +1,16 @@
 const uuid = require('uuid')
 
+const {generateHash} = require("../utils/hashProvider")
+
 const autors = []
 
 const list = (request, response) => {
+  const {autor_id} = request.query
+  if (autor_id) {
+    autors
+  }
   return response.json(autors);
+  
 }
 
 const getById = (request, response) => {
@@ -21,11 +28,12 @@ const getById = (request, response) => {
   return response.json(autor);
 }
 
-const create = (request, response) => {
+const create = async (request, response) => {
   const {name, biography, email, password} = request.body;
   const id = uuid.v4()
   const createdAt = new Date()
   const modifiedAt = new Date()
+  const hashedPassword = await generateHash(password)
 
   const autor = autors.find((u) => u.email === email);
   if(autor){
@@ -40,7 +48,7 @@ const create = (request, response) => {
     name,
     biography,
     email,
-    password,
+    password: hashedPassword,
     createdAt,
     modifiedAt,
   }
@@ -50,10 +58,11 @@ const create = (request, response) => {
   return response.status(201).json(newAutor)
 }
 
-const update = (request, response) => {
+const update = async (request, response) => {
   const { id } = request.params;
   const { name, biography, email, password } = request.body;
   const modifiedAt = new Date();
+  const hashedPassword = await generateHash(password)
   
   const autorIndex = autors.findIndex(a => a.id === id);
   if(autorIndex < 0 ){
@@ -69,7 +78,7 @@ const update = (request, response) => {
     name,
     biography,
     email,
-    password,
+    password: hashedPassword,
     createdAt,
     modifiedAt
   }
@@ -104,4 +113,5 @@ module.exports = {
   create,
   update,
   remove,
+  authorsDatabase: autors,
 };
