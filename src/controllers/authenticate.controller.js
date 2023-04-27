@@ -28,8 +28,6 @@ const login = async (request, response) =>{
 
   delete author.password
 
-  console.log(author2.password)
-
   return response.json({...author, token})
 }
 

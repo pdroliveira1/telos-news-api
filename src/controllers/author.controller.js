@@ -5,16 +5,13 @@ const {generateHash} = require("../utils/hashProvider")
 const authors = []
 
 const list = (request, response) => {
-  const {author_id} = request.query
-  if (author_id) {
-    authors
-  }
+
   return response.json(authors);
-  
+
 }
 
 const getById = (request, response) => {
-  const { id } = request.params;
+  const { id } = request.parans;
 
   const author = authors.find((u) => u.id === id);
 
