@@ -2,13 +2,13 @@ const express = require("express");
 
 const app = express();
 
-const autorRoutes = require('./routes/autor.routes')
+const authorRoutes = require('./routes/author.routes')
 const authenticateRoutes = require('./routes/authenticate.routes')
 
 const PORT = 3333;
 
 app.use(express.json())
-app.use(autorRoutes)
+app.use(authorRoutes)
 app.use(authenticateRoutes)
 
 app.listen(PORT, () => {

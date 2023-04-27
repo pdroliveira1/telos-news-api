@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken") 
-const { authorsDatabase } = require("../controllers/autor.controller")
+const { authorsDatabase } = require("./author.controller")
 const { compareHash } = require("../utils/hashProvider")
 
 const login = async (request, response) =>{
@@ -9,8 +9,6 @@ const login = async (request, response) =>{
     error: '@authenticate/login',
     message: 'invalid email or password'
   }
-
-  const author2 = authorsDatabase.find(a => a.email === email)
   const author = authorsDatabase.find(a => a.email === email)
   
 

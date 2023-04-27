@@ -2,30 +2,30 @@ const uuid = require('uuid')
 
 const {generateHash} = require("../utils/hashProvider")
 
-const autors = []
+const authors = []
 
 const list = (request, response) => {
-  const {autor_id} = request.query
-  if (autor_id) {
-    autors
+  const {author_id} = request.query
+  if (author_id) {
+    authors
   }
-  return response.json(autors);
+  return response.json(authors);
   
 }
 
 const getById = (request, response) => {
   const { id } = request.params;
 
-  const autor = autors.find((u) => u.id === id);
+  const author = authors.find((u) => u.id === id);
 
-  if(!autor){
+  if(!author){
     return response.status(400).json({
-      error: '@autor/getById',
-      message: `autor not found ${id}`
+      error: '@author/getById',
+      message: `author not found ${id}`
     })
   }
   
-  return response.json(autor);
+  return response.json(author);
 }
 
 const create = async (request, response) => {
@@ -35,15 +35,15 @@ const create = async (request, response) => {
   const modifiedAt = new Date()
   const hashedPassword = await generateHash(password)
 
-  const autor = autors.find((u) => u.email === email);
-  if(autor){
+  const author = authors.find((u) => u.email === email);
+  if(author){
     return response.status(422).json({
-      error: '@autor/create',
+      error: '@author/create',
       message: `author already registered`
     })
   }
 
-  const newAutor = {
+  const newAuthor = {
     id,
     name,
     biography,
@@ -53,9 +53,9 @@ const create = async (request, response) => {
     modifiedAt,
   }
   
-  autors.push(newAutor)
+  authors.push(newAuthor)
 
-  return response.status(201).json(newAutor)
+  return response.status(201).json(newAuthor)
 }
 
 const update = async (request, response) => {
@@ -64,16 +64,16 @@ const update = async (request, response) => {
   const modifiedAt = new Date();
   const hashedPassword = await generateHash(password)
   
-  const autorIndex = autors.findIndex(a => a.id === id);
-  if(autorIndex < 0 ){
+  const authorIndex = authors.findIndex(a => a.id === id);
+  if(authorIndex < 0 ){
     return response.status(400).json({
-      erro: `@autor/update`,
-      message: `Autor not foud ${id}`
+      erro: `@author/update`,
+      message: `Author not foud ${id}`
     })
   }
 
-  const createdAt = autors[autorIndex].createdAt;
-  const autorUpdated = {
+  const createdAt = authors[authorIndex].createdAt;
+  const authorUpdated = {
     id,
     name,
     biography,
@@ -84,24 +84,24 @@ const update = async (request, response) => {
   }
 
 
-  autors[autorIndex] = autorUpdated;
+  authors[authorIndex] = authorUpdated;
 
-  return response.status(201).json(autorUpdated)
+  return response.status(201).json(authorUpdated)
 }
 
 const remove = (request, response) => {
   const { id } =  request.params
   
-  const autorIndex = autors.findIndex((a) => a.id === id)
+  const authorIndex = authors.findIndex((a) => a.id === id)
 
-  if(autorIndex < 0){
+  if(authorIndex < 0){
     return response.status(400).json({
-      erro: '@autor/remove',
-      message:`autor not found ${id}`
+      erro: '@author/remove',
+      message:`author not found ${id}`
     })
   }
 
-  autors.splice(autorIndex, 1)
+  authors.splice(authorIndex, 1)
 
   return response.send()
 
@@ -113,5 +113,5 @@ module.exports = {
   create,
   update,
   remove,
-  authorsDatabase: autors,
+  authorsDatabase: authors,
 };
