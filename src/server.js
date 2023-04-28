@@ -1,12 +1,13 @@
 const express = require("express");
 
+const { PORT } = require("./config/env")
+
 const app = express();
 
 const authorRoutes = require('./routes/author.routes')
 const authenticateRoutes = require('./routes/authenticate.routes')
 const newsRoutes = require("./routes/news.routes")
 
-const PORT = 3333;
 
 app.use(express.json())
 app.use(authorRoutes)

@@ -1,6 +1,10 @@
 const jwt = require("jsonwebtoken") 
+
+const { JWT_SECRET } = require('../config/env')
+
 const { authorsDatabase } = require("./author.controller")
 const { compareHash } = require("../utils/hashProvider")
+
 
 const login = async (request, response) =>{
   const { email, password} = request.body
@@ -22,7 +26,7 @@ const login = async (request, response) =>{
     return response.status(400).json(loginErrorMenssage)
   }
 
-  const token = jwt.sign(author, "secret", {
+  const token = jwt.sign(author, JWT_SECRET, {
     expiresIn: "1h",
   })
 
