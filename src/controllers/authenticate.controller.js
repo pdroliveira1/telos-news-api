@@ -26,9 +26,11 @@ const login = async (request, response) =>{
     expiresIn: "1h",
   })
 
-  delete author.password
+  const authorAuthenticate = { ...author}
 
-  return response.json({...author, token})
+  delete authorAuthenticate.password
+
+  return response.json({...authorAuthenticate, token})
 }
 
 module.exports = {

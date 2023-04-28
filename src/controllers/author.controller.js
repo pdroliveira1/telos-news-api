@@ -11,7 +11,7 @@ const list = (request, response) => {
 }
 
 const getById = (request, response) => {
-  const { id } = request.parans;
+  const { id } = request.params;
 
   const author = authors.find((u) => u.id === id);
 
@@ -59,9 +59,9 @@ const update = async (request, response) => {
   const { id } = request.params;
   const { name, biography, email, password } = request.body;
   const modifiedAt = new Date();
-  const hashedPassword = await generateHash(password)
-  
+
   const authorIndex = authors.findIndex(a => a.id === id);
+
   if(authorIndex < 0 ){
     return response.status(400).json({
       erro: `@author/update`,
@@ -70,14 +70,20 @@ const update = async (request, response) => {
   }
 
   const createdAt = authors[authorIndex].createdAt;
+
   const authorUpdated = {
     id,
     name,
     biography,
     email,
-    password: hashedPassword,
     createdAt,
     modifiedAt
+  }
+
+  if (password) {
+    authorUpdated.password = await generateHash(password)
+  } else {
+    authorUpdated.password = authors[authorIndex].password
   }
 
 

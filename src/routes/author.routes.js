@@ -7,7 +7,7 @@ const { verifyAuthenticate } = require("../middlewares/verifyAuthentication")
 routes = Router();
 
 routes.get('/author', authorController.list);
-routes.get('/autor/:id', authorController.getById);
+routes.get('/author/:id', authorController.getById);
 
 routes.post('/author', authorController.create)
 
