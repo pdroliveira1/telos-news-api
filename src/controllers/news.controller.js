@@ -3,20 +3,30 @@ const uuid = require('uuid')
 const news = []
 
 const list = (request, response) =>{
-  const {author_id} = request.query
+  const {author_id, publish_date} = request.query
 
-  if (author_id) {
+
+  if (author_id && publish_date) {
+    newsFilter = news.filter(n => n.author_id === author_id && n.publish_date === publish_date)
+
+    return response.json(newsFilter);
+  }else if (author_id) {
     newsFilter = news.filter(n => n.author_id === author_id)
 
     return response.json(newsFilter);
+  }else if(publish_date) {
+    newsFilter = news.filter(n => n.publish_date === publish_date)
+
+    return response.json(newsFilter);
   }
+
 
   return response.json(news);
 
 }
 
 const getById = (request, response) => {
-  const { id } = request.parans
+  const { id } = request.params
 
   const newsId = news.find(n => n.id === id)
 
